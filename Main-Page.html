@@ -46,9 +46,9 @@
       <a class="box-link" href="testgame.html" aria-label="Test Page">Test Games</a>
       <a id="scratch-link" class="box-link" href="https://scratch.mit.edu/" aria-label="Open Scratch">Scratch</a>
       <a id="unblocked-gamesG+-link" class="box-link" href="https://sites.google.com/classroom.center/view-1/" aria-label="Open Unblocked Games G+">Unblocked Games G+</a>
-      <a id="roblox-link" class="box-link" href="https://www.roblox.com/" style="cursor:pointer;background:#000;animation:robloxGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Roblox">Roblox(working on filter bypass)</a>
+      <a id="roblox-link" class="box-link" href="roblox.html" style="cursor:pointer;background:#000;animation:robloxGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Roblox">Roblox(working on filter bypass)</a>
       <a id="minecraft-link" class="box-link" href="https://www.minecraft.net/" style="cursor: pointer;background:#10b981;animation:minecraftGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Minecraft">Minecraft(working on filter bypass)</a>
-
+      <a id="vpn-link" class="box-link" href="vpn.html" style="background:#ef4444;color:#fff;" aria-label="Open VPN Unlimited">VPN Install</a>
     </p>
   </main>
 <script>
@@ -237,7 +237,7 @@
   if(!a) return;
   a.addEventListener('click', function(e){
     e.preventDefault();
-    var ok = confirm('Redirect Notice, headed to "roblox.com", trusted site, but blocked by filters (fix in progress), proceed?');
+    var ok = confirm('Redirect Notice, headed to "roblox.html" a falsified page that mimics the official Roblox site, this is done to bypass school filters as the official site is blocked, proceed?');
     if(ok){ window.location.href = a.href; }
   });
 })();
@@ -271,6 +271,18 @@
       if(!ok) return;
     }
 
+  });
+})();
+</script>
+<script>
+
+(function(){
+  var a = document.getElementById('vpn-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('Redirect Notice, headed to "vpn.html" a falsified page that mimics the official X-VPN site, this is done to bypass school filters as the official site is blocked, proceed?');
+    if(ok){ window.location.href = a.href; }
   });
 })();
 </script>
