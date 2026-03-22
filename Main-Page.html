@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Clever</title>
+  <link rel="icon" href="https://www.clever.com/wp-content/uploads/2023/06/cropped-Favicon-512px-192x192.png">
+  <style>
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;margin:0;background:#fff;color:#111}
+    main{max-width:900px;margin:48px auto;padding:0 20px;text-align:center}
+    h1{font-size:28px;margin:0 0 18px}
+    img{max-width:100%;height:auto;border-radius:6px;display:block;margin:0 auto}
+    .box-link{display:inline-block;margin:18px auto 0;padding:12px 18px;border-radius:10px;border:1px solid #d1d5db;background:#f8fafc;color:#0f172a;text-decoration:none;font-weight:600}
+    .box-link:hover{background:#eef2f7}
+    @keyframes robloxGlow {
+      0% { background-color: #001a4d; }
+      50% { background-color: #0066ff; }
+      100% { background-color: #001a4d; }
+    }
+    @keyframes minecraftGlow {
+      0% { background-color: #047857; }
+      50% { background-color: #10b981; }
+      100% { background-color: #047857; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>UNBLOCKED</h1>
+    <p>Press Shift + B to immediately go to Clever portal</p>
+    <p id="token-status">Connecting to Clever, obtaining access token for quick exit...</p>
+    <p>If token cannot be collected, you will be sent to an error page upon quick exit</p>
+    <p>Using your Clever Token is not required as it only supports Quick Exit, you will have a secondary token that saves your data</p>
+    <p>Data sharing/browser transfer is allowed you can do this by clicking "Share Data Token" and to import click "Import Data Token"</p>
+   
+    <p>
+      <h1>Token Settings</h1>
+      <button id="force-token-button" class="box-link" style="border:none;cursor:pointer;background:#1464FF;color:#fff;">Force Clever Token Input</button>
+      <button id="export-data-button" class="box-link" style="border:none;cursor:pointer;background:#A020F0;color:#fff;">Share Data Token</button>
+      <button id="import-data-button" class="box-link" style="border:none;cursor:pointer;background:#f59e0b;color:#fff;">Import Data Token</button>
+      <a id = "no-token-link" class="box-link" href="#" onclick="return false;" style="border:none;cursor:pointer;background:#ff1414;color:#000;" aria-label="Don't obtain Clever Access Token">Don't obtain Clever Access Token</a>
+    </p>
+   
+    <p>
+      <h1>Games/Links</h1>
+      <a class="box-link" href="http://127.0.0.1:5500/testgame.html" aria-label="Test Page">Test Games</a>
+      <a id="scratch-link" class="box-link" href="https://scratch.mit.edu/" aria-label="Open Scratch">Scratch</a>
+      <a id="unblocked-gamesG+-link" class="box-link" href="https://sites.google.com/classroom.center/view-1/" aria-label="Open Unblocked Games G+">Unblocked Games G+</a>
+      <a id="roblox-link" class="box-link" href="https://www.roblox.com/" style="cursor:pointer;background:#000;animation:robloxGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Roblox">Roblox(working on filter bypass)</a>
+      <a id="minecraft-link" class="box-link" href="https://www.minecraft.net/" style="cursor: pointer;background:#10b981;animation:minecraftGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Minecraft">Minecraft(working on filter bypass)</a>
+
+    </p>
+  </main>
+<script>
+
+(function() {
+
+  var tokenManager = {
+
+    extractTokenFromURL: function() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('token') || params.get('id') || params.get('access_token') || null;
+    },
+    
+
+    getStoredToken: function() {
+      return sessionStorage.getItem('cleverAccessToken') || localStorage.getItem('cleverAccessToken') || null;
+    },
+    
+
+    storeToken: function(token) {
+      if (token) {
+        sessionStorage.setItem('cleverAccessToken', token);
+        localStorage.setItem('cleverAccessToken', token);
+      }
+    },
+    
+
+    getToken: function() {
+      var urlToken = this.extractTokenFromURL();
+      if (urlToken) {
+        this.storeToken(urlToken);
+        return urlToken;
+      }
+      return this.getStoredToken();
+    },
+    
+
+    getCityName: function() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('city') || params.get('district') || 'student';
+    },
+    
+
+    buildPortalURL: function(token, cityName) {
+      cityName = cityName || this.getCityName();
+      if (token) {
+        return 'https://clever.com/in/' + encodeURIComponent(cityName) + '/portal?token=' + encodeURIComponent(token);
+      }
+      return 'https://clever.com/in/' + encodeURIComponent(cityName) + '/portal';
+    }
+  };
+  
+
+  window.cleverTokenManager = tokenManager;
+  var currentToken = tokenManager.getToken();
+  var statusEl = document.getElementById('token-status');
+  
+  if (currentToken) {
+    statusEl.textContent = 'Access token obtained successfully. Quick exit ready.';
+    statusEl.style.color = '#22c55e';
+  } else {
+    statusEl.textContent = 'Warning: Access token not found. Quick exit may fail. Make sure you are accessing from Clever portal link.';
+    statusEl.style.color = '#ef4444';
+  }
+  
+
+  document.addEventListener('keydown', function(event) {
+    if (event.shiftKey && event.key === 'B') {
+      console.log('Shift+B: Returning to Clever portal with token');
+      var token = tokenManager.getToken();
+      var cityName = tokenManager.getCityName();
+      var portalURL = tokenManager.buildPortalURL(token, cityName);
+      
+      if (token) {
+        alert('Returning to Clever portal with access token...');
+      } else {
+        alert('Warning: No access token found. Redirecting to default Clever portal.');
+      }
+      window.location.replace(portalURL);
+    }
+  });
+  
+
+  window.getCleverToken = function() {
+    return tokenManager.getToken();
+  };
+  
+  window.getCleverPortalURL = function(customCity) {
+    return tokenManager.buildPortalURL(tokenManager.getToken(), customCity);
+  };
+  
+
+  var forceTokenBtn = document.getElementById('force-token-button');
+  if (forceTokenBtn) {
+    forceTokenBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+
+      var cleverWindow = window.open('https://clever.com/in/student/portal', 'CleverAuth', 'width=1024,height=768,toolbar=no,menubar=no');
+      
+      if (!cleverWindow) {
+        alert('Popup blocked. Please allow popups and try again.');
+        return;
+      }
+      
+
+      var storageListener = function(event) {
+        if (event.key === 'cleverAccessToken' && event.newValue) {
+
+          tokenManager.storeToken(event.newValue);
+          window.removeEventListener('storage', storageListener);
+          cleverWindow.close();
+          alert('Token captured successfully! Reloading page...');
+          window.location.reload();
+        }
+      };
+      
+      window.addEventListener('storage', storageListener);
+      
+
+      var pollInterval = setInterval(function() {
+        try {
+          if (cleverWindow.closed) {
+            clearInterval(pollInterval);
+            window.removeEventListener('storage', storageListener);
+            
+
+            setTimeout(function() {
+              var userToken = prompt('Clever window closed.\n\nIf you logged in, paste the token/URL from your address bar or enter manually:');
+              if (userToken && userToken.trim()) {
+
+                var tokenMatch = userToken.match(/[?&](?:token|id|access_token)=([^&]+)/);
+                var token = tokenMatch ? tokenMatch[1] : userToken.trim();
+                
+                tokenManager.storeToken(token);
+                alert('Token stored successfully! Reloading page...');
+                window.location.reload();
+              }
+            }, 500);
+          }
+        } catch (e) {
+          clearInterval(pollInterval);
+        }
+      }, 500);
+      
+
+      setTimeout(function() {
+        clearInterval(pollInterval);
+        window.removeEventListener('storage', storageListener);
+        if (!cleverWindow.closed) {
+          cleverWindow.close();
+        }
+      }, 600000);
+    });
+  }
+})();
+</script>
+<script>
+
+(function(){
+  var a = document.getElementById('scratch-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('Redirect Notice, headed to "scratch.mit.edu", trusted site owned by MIT, proceed?');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+<script>
+
+(function(){
+  var a = document.getElementById('unblocked-gamesG+-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('Redirect Notice, headed to "sites.google.com/classroom.center/view-1" WARNING, THIS SITE IS EXPECTED TO INSTALL MALWARE ON YOUR DEVICE, PROCEED WITH CAUTION.');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+<script>
+
+(function(){
+  var a = document.getElementById('roblox-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('Redirect Notice, headed to "roblox.com", trusted site, but blocked by filters (fix in progress), proceed?');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+<script>
+
+(function(){
+  var a = document.getElementById('minecraft-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('Redirect Notice, headed to "minecraft.net", trusted site, but blocked by school filters(fix in progress), proceed?');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+
+<script>
+
+(function(){
+  var a = document.getElementById('no-token-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var token = window.getCleverToken();
+    if(token){
+      var ok = confirm('Current Access Token: ' + token + '\n\nProceed without using token? This may result in an error page. Data may not save.');
+      if(!ok) return;
+    } else {
+      var ok = confirm('Access token not available.\n\nProceed without token? This will result in an error page upon quick exit and data will not save.');
+      if(!ok) return;
+    }
+
+  });
+})();
+</script>
+<script>
+
+(function() {
+  var persistenceManager = {
+
+    DB_NAME: 'CleverTokenDB',
+    STORE_NAME: 'tokens',
+    SESSION_KEY: 'sessionTokenData',
+    
+
+    initDB: function() {
+      return new Promise(function(resolve, reject) {
+        var request = indexedDB.open('CleverTokenDB', 1);
+        
+        request.onerror = function() {
+          console.warn('IndexedDB failed, falling back to localStorage');
+          resolve(false);
+        };
+        
+        request.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+        
+        request.onupgradeneeded = function(event) {
+          var db = event.target.result;
+          if (!db.objectStoreNames.contains('tokens')) {
+            db.createObjectStore('tokens', { keyPath: 'id' });
+          }
+        };
+      });
+    },
+    
+
+    saveToIndexedDB: function(tokenData) {
+      this.initDB().then(function(db) {
+        if (!db) return;
+        
+        var transaction = db.transaction(['tokens'], 'readwrite');
+        var store = transaction.objectStore('tokens');
+        
+        store.put({
+          id: 'cleverToken',
+          token: tokenData.token,
+          city: tokenData.city,
+          timestamp: new Date().getTime(),
+          source: 'system'
+        });
+        
+        transaction.oncomplete = function() {
+          console.log('Token saved to IndexedDB');
+        };
+      });
+    },
+    
+
+    loadFromIndexedDB: function() {
+      return new Promise(function(resolve) {
+        persistenceManager.initDB().then(function(db) {
+          if (!db) {
+            resolve(null);
+            return;
+          }
+          
+          var transaction = db.transaction(['tokens'], 'readonly');
+          var store = transaction.objectStore('tokens');
+          var request = store.get('cleverToken');
+          
+          request.onsuccess = function() {
+            resolve(request.result || null);
+          };
+          
+          request.onerror = function() {
+            resolve(null);
+          };
+        });
+      });
+    },
+    
+
+    saveToLocalStorage: function(tokenData) {
+      var data = {
+        token: tokenData.token,
+        city: tokenData.city,
+        timestamp: new Date().getTime(),
+        expiresAt: new Date().getTime() + (30 * 24 * 60 * 60 * 1000) // 30 days
+      };
+      localStorage.setItem('cleverTokenPersist', JSON.stringify(data));
+      console.log('Token saved to localStorage');
+    },
+    
+
+    loadFromLocalStorage: function() {
+      var data = localStorage.getItem('cleverTokenPersist');
+      if (data) {
+        try {
+          var parsed = JSON.parse(data);
+
+          if (parsed.expiresAt > new Date().getTime()) {
+            return parsed;
+          } else {
+            localStorage.removeItem('cleverTokenPersist');
+          }
+        } catch (e) {
+          console.error('Failed to parse localStorage data', e);
+        }
+      }
+      return null;
+    },
+    
+
+    savePersistentToken: function(token, city) {
+      var tokenData = {
+        token: token,
+        city: city || 'student'
+      };
+      
+      this.saveToIndexedDB(tokenData);
+      this.saveToLocalStorage(tokenData);
+      
+
+      sessionStorage.setItem('cleverAccessToken', token);
+      
+      console.log('Token persisted to browser storage');
+    },
+    
+
+    loadPersistentToken: function() {
+      var self = this;
+      
+
+      return this.loadFromIndexedDB().then(function(data) {
+        if (data && data.token) {
+          console.log('Token loaded from IndexedDB');
+          return data;
+        }
+        
+
+        var localData = self.loadFromLocalStorage();
+        if (localData && localData.token) {
+          console.log('Token loaded from localStorage');
+          return localData;
+        }
+        
+        return null;
+      });
+    },
+    
+
+    clearPersistentTokens: function() {
+      localStorage.removeItem('cleverTokenPersist');
+      sessionStorage.removeItem('cleverAccessToken');
+      
+      this.initDB().then(function(db) {
+        if (!db) return;
+        var transaction = db.transaction(['tokens'], 'readwrite');
+        var store = transaction.objectStore('tokens');
+        store.delete('cleverToken');
+      });
+      
+      console.log('All persistent tokens cleared');
+    }
+  };
+  
+
+  persistenceManager.loadPersistentToken().then(function(data) {
+    if (data && data.token) {
+
+      if (window.cleverTokenManager) {
+        window.cleverTokenManager.storeToken(data.token);
+        var statusEl = document.getElementById('token-status');
+        if (statusEl) {
+          statusEl.textContent = 'Token restored from browser storage. Quick exit ready.';
+          statusEl.style.color = '#06b6d4';
+        }
+      }
+    }
+  });
+  
+
+  window.persistenceManager = persistenceManager;
+  
+
+  if (window.cleverTokenManager) {
+    var originalStoreToken = window.cleverTokenManager.storeToken;
+    window.cleverTokenManager.storeToken = function(token) {
+      originalStoreToken.call(this, token);
+      persistenceManager.savePersistentToken(token, this.getCityName());
+      console.log('Token auto-saved via persistence system');
+    };
+  }
+  
+
+  window.addEventListener('beforeunload', function() {
+    if (window.cleverTokenManager) {
+      var token = window.cleverTokenManager.getToken();
+      if (token) {
+        persistenceManager.savePersistentToken(token, window.cleverTokenManager.getCityName());
+        console.log('Token auto-saved on page exit');
+      }
+    }
+  });
+  
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (window.cleverTokenManager) {
+        var token = window.cleverTokenManager.getToken();
+        if (token) {
+          persistenceManager.savePersistentToken(token, window.cleverTokenManager.getCityName());
+          console.log('Token auto-saved on tab visibility change');
+        }
+      }
+    }
+  });
+  
+
+  window.saveTokenData = function(token, city) {
+    persistenceManager.savePersistentToken(token, city || 'student');
+  };
+  
+  window.loadTokenData = function() {
+    return persistenceManager.loadPersistentToken();
+  };
+  
+  window.clearTokenData = function() {
+    persistenceManager.clearPersistentTokens();
+    window.location.reload();
+  };
+})();
+</script>
+<script>
+
+
+
+(function() {
+  var dataSharingManager = {
+    // Encode data into a shareable token (base64 encoded JSON)
+    generateExportToken: function() {
+      var allData = {
+        cleverAccessToken: sessionStorage.getItem('cleverAccessToken') || localStorage.getItem('cleverAccessToken'),
+        cleverTokenPersist: localStorage.getItem('cleverTokenPersist'),
+        timestamp: new Date().getTime(),
+        version: 1
+      };
+      
+      // Convert to JSON and then to base64
+      var jsonString = JSON.stringify(allData);
+      var encoded = btoa(unescape(encodeURIComponent(jsonString)));
+      
+      return encoded;
+    },
+    
+    // Decode a shareable token and restore data
+    importExportToken: function(token) {
+      try {
+        // Decode base64 to JSON
+        var decoded = decodeURIComponent(escape(atob(token)));
+        var data = JSON.parse(decoded);
+        
+        // Validate token
+        if (!data.version || data.version !== 1) {
+          throw new Error('Invalid token version');
+        }
+        
+        // Restore all data
+        if (data.cleverAccessToken) {
+          sessionStorage.setItem('cleverAccessToken', data.cleverAccessToken);
+          localStorage.setItem('cleverAccessToken', data.cleverAccessToken);
+        }
+        
+        if (data.cleverTokenPersist) {
+          localStorage.setItem('cleverTokenPersist', data.cleverTokenPersist);
+        }
+        
+        return {
+          success: true,
+          message: 'Data imported successfully',
+          dataItems: Object.keys(data).length
+        };
+      } catch (e) {
+        return {
+          success: false,
+          message: 'Failed to import token: ' + e.message,
+          error: e
+        };
+      }
+    }
+  };
+  
+  // Expose to global scope
+  window.dataSharingManager = dataSharingManager;
+  
+  // Export Data Token Button
+  var exportBtn = document.getElementById('export-data-button');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      try {
+        var token = dataSharingManager.generateExportToken();
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(token).then(function() {
+          alert('Data export token copied to clipboard!\n\nShare this token with others to transfer your data.\n\nToken length: ' + token.length + ' characters');
+        }).catch(function() {
+          // Fallback: show token in prompt for manual copy
+          prompt('Copy this data export token and share with others:\n(Ctrl+C to copy)', token);
+        });
+      } catch (e) {
+        alert('Error generating export token: ' + e.message);
+      }
+    });
+  }
+  
+  // Import Data Token Button
+  var importBtn = document.getElementById('import-data-button');
+  if (importBtn) {
+    importBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      var token = prompt('Paste the data export token you received:');
+      if (!token) return;
+      
+      var result = dataSharingManager.importExportToken(token.trim());
+      
+      if (result.success) {
+        alert('Success! ' + result.message + '\n\n' + result.dataItems + ' data items restored.\n\nReloading page...');
+        window.location.reload();
+      } else {
+        alert('Import failed: ' + result.message);
+      }
+    });
+  }
+})();
+</script></body>
+</html>
