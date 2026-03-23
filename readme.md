@@ -1,6 +1,6 @@
 This is open source and completely allowed to be edited(aproval first(malware checked)) by outside sources
 
-link: [https://clever-middle.netlify.app](https://jeremiahgirongd.github.io/Clever-Middle-Unblocked-Games-/)
+link: https://jeremiahgirongd.github.io/Clever-Middle-Unblocked-Games-/
 
 This project is still being worked on, give me some time, I'm a single developer
 
