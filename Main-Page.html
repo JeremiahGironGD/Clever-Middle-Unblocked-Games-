@@ -50,6 +50,10 @@
       <a id="minecraft-link" class="box-link" href="https://www.minecraft.net/" style="cursor: pointer;background:#10b981;animation:minecraftGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Minecraft">Minecraft(working on filter bypass)</a>
       <a id="vpn-link" class="box-link" href="vpn.html" style="background:#ef4444;color:#fff;" aria-label="Open VPN Unlimited">VPN Install</a>
     </p>
+    <p>
+      <h1>Other</h1>
+      <a id="about-link" class="box-link" href="about.html" aria-label="Open About Page">About</a>
+    </p>
   </main>
 <script>
 
@@ -218,6 +222,20 @@
   });
 })();
 </script>
+
+<script>
+
+(function(){
+  var a = document.getElementById('about-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = alert('Page not finished, page site, no confirm needed, alert will be removed when page is finished');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+
 <script>
 
 (function(){
