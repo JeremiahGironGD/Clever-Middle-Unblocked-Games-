@@ -230,7 +230,7 @@
   if(!a) return;
   a.addEventListener('click', function(e){
     e.preventDefault();
-    var ok = alert('Page not finished, page site, no confirm needed, alert will be removed when page is finished');
+    var ok = confirm('Page not finished, page site, no confirm needed, alert will be removed when page is finished, Proceed?');
     if(ok){ window.location.href = a.href; }
   });
 })();
