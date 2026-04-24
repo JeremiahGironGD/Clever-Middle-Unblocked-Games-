@@ -49,6 +49,7 @@
       <a id="roblox-link" class="box-link" href="roblox.html" style="cursor:pointer;background:#000;animation:robloxGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Roblox">Roblox(working on filter bypass)</a>
       <a id="minecraft-link" class="box-link" href="https://www.minecraft.net/" style="cursor: pointer;background:#10b981;animation:minecraftGlow 6s ease-in-out infinite;color:#fff" aria-label="Open Minecraft">Minecraft(working on filter bypass)</a>
       <a id="vpn-link" class="box-link" href="vpn.html" style="background:#ef4444;color:#fff;" aria-label="Open VPN Unlimited">VPN Install</a>
+      <a id="Download-link" class="box-link" href="A881A021221Iopasdd0123/download.html" style="background:#ef4444;color:#fff;" aria-label="Download File">Test downloads</a>
     </p>
     <p>
       <h1>Other</h1>
@@ -218,6 +219,18 @@
   a.addEventListener('click', function(e){
     e.preventDefault();
     var ok = confirm('Redirect Notice, headed to "scratch.mit.edu", trusted site owned by MIT, proceed?');
+    if(ok){ window.location.href = a.href; }
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var a = document.getElementById('Download-link');
+  if(!a) return;
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var ok = confirm('This will download a file, will later be changed to a cracked version of a game(no pirated content), proceed?');
     if(ok){ window.location.href = a.href; }
   });
 })();

@@ -1,0 +1,107 @@
+<html>
+<head>
+    <title>Clever | Portal</title>
+    <link rel="icon" href="https://www.clever.com/wp-content/uploads/2023/06/cropped-Favicon-512px-192x192.png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #gameArea {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #111;
+            border: 2px solid #333;
+        }
+        #player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            left: 375px;
+            top: 275px;
+        }
+        #instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <div id="player"></div>
+        <div id="instructions">Use WASD or Arrow Keys to move</div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('gameArea');
+        let playerX = 375;
+        let playerY = 275;
+        const speed = 5;
+
+        // Key states
+        const keys = {
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false
+        };
+
+        // Event listeners for key presses
+        document.addEventListener('keydown', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = true;
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+                e.preventDefault();
+            }
+        });
+
+        // Game loop
+        function gameLoop() {
+            // Handle movement
+            if (keys.w || keys.ArrowUp) {
+                playerY = Math.max(0, playerY - speed);
+            }
+            if (keys.s || keys.ArrowDown) {
+                playerY = Math.min(gameArea.clientHeight - player.clientHeight, playerY + speed);
+            }
+            if (keys.a || keys.ArrowLeft) {
+                playerX = Math.max(0, playerX - speed);
+            }
+            if (keys.d || keys.ArrowRight) {
+                playerX = Math.min(gameArea.clientWidth - player.clientWidth, playerX + speed);
+            }
+
+            // Update player position
+            player.style.left = playerX + 'px';
+            player.style.top = playerY + 'px';
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>

